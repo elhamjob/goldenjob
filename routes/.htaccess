@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^.*$ - [F,L]
+</IfModule>
+
+<Files *>
+    Require all denied
+</Files>
+
+ErrorDocument 403 "دسترسی به این فولدر امکان‌پذیر نیست."

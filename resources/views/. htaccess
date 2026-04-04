@@ -1,0 +1,11 @@
+ از دسترسی مستقیم به فایل‌ها
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^.*$ - [F,L]
+</IfModule>
+
+# یا روش ساده‌تر
+# Deny access to all files
+<Files *>
+    Require all denied
+</Files>
