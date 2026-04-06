@@ -13,6 +13,7 @@ use App\Http\Controllers\RFQSController;
 use App\Http\Controllers\ScholarshipController;
 use App\Http\Controllers\ApplicationFormController;
 use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -30,8 +31,7 @@ Route::get('/changelanguage/{lang}', function ($lang) {
 Route::get('/', function () {
     App::setLocale('en');
     Session::put('locale', 'en');
-    return redirect()->action([FrontController::class, 'index']);
-});
+    return redirect()->action([FrontContr
 
 Route::get('/home', [FrontController::class, 'index'])->name('home');
 Route::get('/index', [FrontController::class, 'index'])->name('index');
@@ -53,6 +53,7 @@ Route::get('/jobscenter', [FrontController::class, 'jobs'])->name('jobscenter');
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('/loginfunction', [AdminController::class, 'loginfunction'])->name('admin.loginfunction');
+    Route::get('/loginfunction', fn() => redirect()->route('admin.login'));
     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
 });
@@ -352,6 +353,15 @@ Route::prefix('admin')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/login', [PortalController::class, 'login'])->name('login');
+
+// TEMP: remove after visiting once on live server
+Route::get('/clear-cache', function () {
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    return 'All caches cleared.';
+});
 Route::get('/register', [FrontController::class, 'signup'])->name('register');
 Route::get('/password/reset', function() { return redirect()->route('login'); })->name('password.request');
 Route::get('/password/email', function() { return redirect()->route('login'); })->name('password.email');
