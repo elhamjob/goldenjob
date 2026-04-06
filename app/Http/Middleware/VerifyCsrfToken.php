@@ -6,5 +6,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/some-page',
         '/api/endpoint',
+        'admin/loginfunction',
     ];
 }
