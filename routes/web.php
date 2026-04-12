@@ -31,9 +31,8 @@ Route::get('/changelanguage/{lang}', function ($lang) {
 Route::get('/', function () {
     App::setLocale('en');
     Session::put('locale', 'en');
-    return redirect()->action([FrontContr
-
-Route::get('/home', [FrontController::class, 'index'])->name('home');
+    return redirect()->action([FrontController::class, 'index']);
+});
 Route::get('/index', [FrontController::class, 'index'])->name('index');
 Route::get('/contacts', [FrontController::class, 'contacts'])->name('contacts');
 Route::post('/apply', [FrontController::class, 'apply'])->name('apply');
@@ -180,7 +179,6 @@ Route::middleware('auth')->group(function () {
 | Route Aliases (flat names used in views)
 |--------------------------------------------------------------------------
 */
-use App\Http\Controllers\SeekerController;
 
 // Auth / signup
 Route::get('/portal/login', [PortalController::class, 'login'])->name('portal.login');

@@ -35,27 +35,26 @@ class AdminController extends Controller
         return view('admin.login');
     }
     //Loging in method for checking password and message and signing in - Start
-	public function loginfunction(){
-	    
-		$data=Input::all();
-// 		print_r($data);exit;
-		$rules=array(	     
-		'email'=>'required|email',
-		'password'=>'required|min:5',
-		);
-		$validation=Validator::make($data,$rules);
-		if($validation->fails()){
-			return redirect()->action([AdminController::class, 'login'])->withErrors($validation);
-
-		}
-
-		if(Auth::attempt(array('email'=>$data['email'], 'password'=>$data['password']))){
-			return redirect()->action([AdminController::class, 'index']);
-		}
-		else{
-		return redirect()->action([AdminController::class, 'login'])->withErrors("Your email or password is wrong! Please try again.");
-		}
-	}   
+    public function loginfunction(){
+        $data = request()->all();
+        $rules = [
+            'email'    => 'required|email',
+            'password' => 'required|min:5',
+        ];
+        $validation = Validator::make($data, $rules);
+        if ($validation->fails()) {
+            return redirect()->action([AdminController::class, 'login'])->withErrors($validation);
+        }
+        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+            $utype = (int) Auth::user()->utype;
+            if ($utype === 0) {
+                return redirect()->action([AdminController::class, 'index']);
+            }
+            Auth::logout();
+            return redirect()->action([AdminController::class, 'login'])->withErrors('Access denied. utype=' . $utype);
+        }
+        return redirect()->action([AdminController::class, 'login'])->withErrors('Your email or password is wrong! Please try again.');
+    }   
 	 //Sign Out Function
 	public function logout(){
 		if(Auth::check()){
