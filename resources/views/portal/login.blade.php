@@ -37,8 +37,7 @@
                                                 {{ Session::get('message') }}
                                             </div>
                                         @endif
-                                {{ Form::open(array('url'=>'/loginfunction')) }}
-                                {{ csrf_field() }}
+                                {{ Form::open(array('route'=>'portal.loginfunction')) }}
             <div class="col-xl-12 mx-auto">
               <div class="log-reg-form search-modal form-style1 bgc-white p50 p30-sm default-box-shadow1 bdrs12">
                 <div class="mb30">
